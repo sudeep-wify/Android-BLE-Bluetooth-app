@@ -204,8 +204,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void connectToDevice() {
-        Log.d(TAG, "Bluetooth connectToDevice: get called");
-        BluetoothDevice device = bluetoothAdapter.getRemoteDevice("B4:9A:95:5A:1E:06");
+        Log.d(TAG, "Bluetooth Scan connectToDevice: get called");
+
+        BluetoothDevice device = bluetoothAdapter.getRemoteDevice("84:9D:C2:B6:6B:9A");
+//        BluetoothDevice device = bluetoothAdapter.getRemoteDevice("PI:#J:IG:B6:6B:9A");
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+        }
+//        device.createBond();
+        Log.d(TAG, "Bluetooth Scan connect To Device: " + device.getAddress());
         if (bluetoothAdapter != null) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             }
@@ -214,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
         }
         Log.d(TAG, "Bluetooth Scan  connectToDevice: before connectGatt() ");
-        bluetoothGatt = device.connectGatt(context,false, gattCallback);
+        bluetoothGatt = device.connectGatt(context,true, gattCallback);
         String uuid = Arrays.toString(device.getUuids());
         if (isBleService(uuid)) {
             Toast.makeText(context, "Connected Device is BLE", Toast.LENGTH_SHORT).show();
